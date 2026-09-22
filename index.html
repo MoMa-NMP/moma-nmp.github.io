@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#17485d">
   <title>MoMa-NMP | Scene-Scale Neural Motion Planning</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=05eb79389be9">
+  <link rel="stylesheet" href="assets/css/style.css?v=3354f3421471">
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
@@ -224,7 +224,12 @@
         <p class="section-intro">We reproduce partial observability in simulation with GPU-based sensor rendering. Points sampled from scene and robot geometry are projected through depth-camera and LiDAR renderers, which retain only the nearest return in each image pixel or angular bin. Occluded geometry is removed before the policy observes the scene.</p>
       </div>
       <figure class="observation-rollout">
-        <video class="simulation-video observation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/observations/rendered-point-cloud-rollout.jpg?v=5f4d82732093" aria-labelledby="observation-caption">
+        <ul class="observation-legend" id="observation-legend" aria-label="Point-cloud color legend">
+          <li><span class="point-swatch point-swatch--lidar" aria-hidden="true"></span><span><span class="sr-only">Blue: </span>LiDAR</span></li>
+          <li><span class="point-swatch point-swatch--depth" aria-hidden="true"></span><span><span class="sr-only">Red: </span>Depth camera</span></li>
+          <li><span class="point-swatch point-swatch--robot" aria-hidden="true"></span><span><span class="sr-only">Yellow: </span>Robot</span></li>
+        </ul>
+        <video class="simulation-video observation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/observations/rendered-point-cloud-rollout.jpg?v=5f4d82732093" aria-labelledby="observation-caption" aria-describedby="observation-legend">
           <source src="assets/videos/observations/rendered-point-cloud-rollout.mp4?v=891fd5569c11" type="video/mp4">
           <a href="assets/videos/observations/rendered-point-cloud-rollout.mp4?v=891fd5569c11">Download the point-cloud observation rollout</a>.
         </video>

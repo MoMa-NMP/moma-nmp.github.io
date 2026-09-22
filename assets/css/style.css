@@ -80,6 +80,12 @@ figcaption { font-size: .79rem; color: var(--muted); line-height: 1.6; margin-to
 .architecture-copy { max-width: 830px; margin: 32px auto 0; color: var(--muted); font-size: .92rem; line-height: 1.8; }
 .observation-section { border-bottom: 1px solid var(--line); }
 .observation-rollout { max-width: 830px; margin-inline: auto; }
+.observation-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; list-style: none; margin: 0 0 16px; padding: 0; color: var(--ink); font-size: .88rem; }
+.observation-legend li { display: inline-flex; align-items: center; gap: 8px; }
+.point-swatch { flex: 0 0 13px; width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(23,47,60,.12); }
+.point-swatch--lidar { background: #5094f7; }
+.point-swatch--depth { background: #ff4647; }
+.point-swatch--robot { background: #f5c14d; }
 .observation-video { aspect-ratio: auto; background: #fff; }
 .observation-copy { max-width: 830px; margin: 24px auto 0; color: var(--muted); font-size: .92rem; line-height: 1.8; }
 .result-panel { max-width: 830px; border-top: 2px solid var(--teal); padding-top: 23px; }
