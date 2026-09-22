@@ -1,30 +1,366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoMa-NMP</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MoMa-NMP: Scene-Scale Neural Motion Planning for Mobile Manipulators. Anonymous research submission.">
+  <meta name="theme-color" content="#17485d">
+  <title>MoMa-NMP | Scene-Scale Neural Motion Planning</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/main.js" defer></script>
 </head>
-
 <body>
-    <h1>MoMa-NMP</h1>
-    <h2>Neural Motion Planning for Mobile Manipulation</h2>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Main navigation">
+      <a class="wordmark" href="#top">MoMa<span>-NMP</span><span class="wordmark-dot" aria-hidden="true"></span></a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#real-world">Real-World Evaluation</a>
+        <a href="#data-generation">Simulation Data Generation</a>
+        <a href="#method">Policy and Training</a>
+        <a href="#results">Simulation Evaluation</a>
+        <a href="#limitations">Limitations</a>
+      </div>
+    </nav>
+  </header>
 
-    <p>Anonymous Submission</p>
+  <main id="main">
+    <section class="hero container" id="top" aria-labelledby="project-title">
+      <p class="eyebrow submission">Anonymous submission</p>
+      <h1 id="project-title"><span class="project-name">MoMa<span>-NMP</span></span><span class="project-title">Scene-Scale Neural Motion Planning<br class="desktop-break"> for Mobile Manipulators</span></h1>
+      <p class="hero-description">Closed-loop whole-body motion planning from partial depth and LiDAR observations.</p>
+    </section>
 
-    <h2>Abstract</h2>
-    <p>
-        Abstract coming soon.
-    </p>
+    <section class="overview section container" id="abstract" aria-labelledby="abstract-title">
+      <div class="section-heading"><h2 id="abstract-title">Abstract</h2></div>
+      <div class="abstract text-column">
+        <p>Mobile manipulators operating in homes and other complex environments must coordinate their base and arm over long horizons, navigating around obstacles, through narrow passages, and between constrained workspaces. Neural motion planners can provide fast closed-loop planning from partial observations, but scaling them to room-sized environments is difficult because generating high-quality training trajectories is itself a challenging motion-planning problem. To address this, we introduce MoMa-DemoSmith, a demonstration-generation pipeline that separates the problem into global path discovery for large complex scenes and local motion refinement for collision avoidance. This key separation enables the generation of millions of challenging whole-body trajectories across our procedurally generated scenes. These demonstrations are used to train MoMa-NMP in two stages, first through behavior cloning (BC), followed by privileged on-policy distillation, producing a closed-loop policy capable of robust whole-body planning across complex, partially observed environments.</p>
+      </div>
+    </section>
 
-    <h2>Method</h2>
-    <p>
-        Project details coming soon.
-    </p>
+    <section class="section section-tinted" id="real-world" aria-labelledby="real-world-title">
+      <div class="container">
+        <div class="section-heading"><h2 id="real-world-title">Real-World Evaluation</h2><p class="section-intro">We evaluate MoMa-NMP on 20 motion-planning tasks across 10 unseen real-world scenes. The policy replans at 12 Hz from onboard depth-camera and LiDAR observations.</p></div>
+        <div class="real-world-gallery">
+          <section class="real-category real-category--paired" aria-labelledby="real-unseen-scenes-title">
+            <h3 id="real-unseen-scenes-title">Generalization to Out-of-Distribution Scenes</h3>
+            <p class="category-description">MoMa-NMP plans in real-world scenes with objects and arrangements absent from the procedurally generated training environments.</p>
+            <div class="real-category-videos">
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1272" height="716" poster="assets/posters/real-world/out-of-distribution-scenes-1.jpg" aria-label="Unseen scene 1">
+                  <source src="assets/videos/real-world/out-of-distribution-scenes-1.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/out-of-distribution-scenes-1.mp4">Download unseen scene 1</a>.
+                </video>
+              </figure>
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1474" height="828" poster="assets/posters/real-world/out-of-distribution-scenes-2.jpg" aria-label="Unseen scene 2">
+                  <source src="assets/videos/real-world/out-of-distribution-scenes-2.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/out-of-distribution-scenes-2.mp4">Download unseen scene 2</a>.
+                </video>
+              </figure>
+            </div>
+          </section>
+          <section class="real-category" aria-labelledby="real-tight-spaces-title">
+            <h3 id="real-tight-spaces-title">Motion Through Tight Spaces</h3>
+            <p class="category-description">The robot coordinates its base and arm to move through narrow passages and reach poses in constrained workspaces.</p>
+            <div class="real-category-videos">
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1920" height="1080" poster="assets/posters/real-world/tight-spaces.jpg" aria-label="Motion Through Tight Spaces">
+                  <source src="assets/videos/real-world/tight-spaces.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/tight-spaces.mp4">Download motion through tight spaces</a>.
+                </video>
+              </figure>
+            </div>
+          </section>
+          <section class="real-category" aria-labelledby="real-replanning-title">
+            <h3 id="real-replanning-title">Closed-Loop Replanning</h3>
+            <p class="category-description">The policy recomputes base-and-arm actions at 12 Hz using updated depth-camera and LiDAR observations during execution.</p>
+            <div class="real-category-videos">
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1550" height="874" poster="assets/posters/real-world/real-time-replanning.jpg" aria-label="Closed-Loop Replanning">
+                  <source src="assets/videos/real-world/real-time-replanning.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/real-time-replanning.mp4">Download closed-loop replanning</a>.
+                </video>
+              </figure>
+            </div>
+          </section>
+          <section class="real-category real-category--paired" aria-labelledby="real-partial-observability-title">
+            <h3 id="real-partial-observability-title">Planning Under Partial Observability</h3>
+            <p class="category-description">The robot navigates around partially observed obstacles and approaches workspaces that are initially occluded from its onboard sensors.</p>
+            <div class="real-category-videos">
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1920" height="1080" poster="assets/posters/real-world/partial-observability-1.jpg" aria-label="Partially observed scene 1">
+                  <source src="assets/videos/real-world/partial-observability-1.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/partial-observability-1.mp4">Download partially observed scene 1</a>.
+                </video>
+              </figure>
+              <figure>
+                <video class="real-world-video" controls muted loop playsinline preload="none" width="1132" height="640" poster="assets/posters/real-world/partial-observability-2.jpg" aria-label="Partially observed scene 2">
+                  <source src="assets/videos/real-world/partial-observability-2.mp4" type="video/mp4">
+                  <a href="assets/videos/real-world/partial-observability-2.mp4">Download partially observed scene 2</a>.
+                </video>
+              </figure>
+            </div>
+          </section>
+        </div>
+        <article class="result-panel real-results"><h3>Real-World Planning Results</h3><div class="table-scroll"><table><caption class="sr-only">Real-world planning success</caption><thead><tr><th scope="col">Method</th><th scope="col">Trials</th><th scope="col">Success</th></tr></thead><tbody><tr class="ours"><th scope="row">MoMa-NMP</th><td>62 / 80</td><td>77.5%</td></tr><tr><th scope="row">cuRobo</th><td>23 / 80</td><td>28.8%</td></tr><tr><th scope="row">RRTConnect</th><td>17 / 80</td><td>21.3%</td></tr></tbody></table></div><p class="result-note">80 trials across 20 tasks in 10 unseen scenes, with four trials per task. MoMa-NMP replans closed-loop from onboard observations. cuRobo and RRTConnect plan once from collision geometry constructed from the initial observation.</p></article>
+      </div>
+    </section>
 
-    <h2>Results</h2>
-    <p>
-        Experimental results and videos coming soon.
-    </p>
+    <section class="section container" id="data-generation" aria-labelledby="data-title">
+      <div class="section-heading"><p class="eyebrow">MoMa-DemoSmith</p><h2 id="data-title">Simulation Data Generation</h2><p class="section-intro">MoMa-DemoSmith separates global path discovery from local action refinement to generate 7 million whole-body training trajectories across procedurally generated scenes.</p></div>
+      <figure class="paper-figure"><a class="figure-link" href="assets/figures/demosmith.png" target="_blank" rel="noopener" aria-label="Open an enlarged view of the MoMa-DemoSmith pipeline"><img src="assets/figures/demosmith.png" alt="MoMa-DemoSmith pipeline: generate diverse scenes, discover global routes with cuRobo, and annotate action targets with Geometric Fabrics." width="1512" height="747" loading="lazy"></a></figure>
+      <ol class="method-steps"><li><span class="step-number">01</span><h3>Procedural Scene Generation</h3><p>Scenes contain one to seven tables with randomized assets and obstacles. Start and goal end-effector poses are sampled in free space and inside compartments.</p></li><li><span class="step-number">02</span><h3>Global Path Discovery</h3><p>cuRobo uses relaxed collision margins and mobile-base motion limits to discover global whole-body routes through the scene.</p></li><li><span class="step-number">03</span><h3>Action-Target Refinement</h3><p>At each cuRobo waypoint, Geometric Fabrics tracks the next five base-and-arm configurations to produce higher-clearance action targets for imitation learning.</p></li></ol>
+      <div class="gallery-heading"><div><h3>cuRobo Trajectories</h3><p>These videos show the global trajectories before Geometric Fabrics action annotation.</p></div><span class="gallery-count">12 examples</span></div>
+      <div class="simulation-grid">
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-01.jpg" aria-labelledby="simulation-caption-01">
+            <source src="assets/videos/simulation/demonstration-01.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-01.mp4">Download demonstration 01</a>.
+          </video>
+          <figcaption id="simulation-caption-01">Demonstration 01</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-02.jpg" aria-labelledby="simulation-caption-02">
+            <source src="assets/videos/simulation/demonstration-02.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-02.mp4">Download demonstration 02</a>.
+          </video>
+          <figcaption id="simulation-caption-02">Demonstration 02</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-03.jpg" aria-labelledby="simulation-caption-03">
+            <source src="assets/videos/simulation/demonstration-03.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-03.mp4">Download demonstration 03</a>.
+          </video>
+          <figcaption id="simulation-caption-03">Demonstration 03</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-04.jpg" aria-labelledby="simulation-caption-04">
+            <source src="assets/videos/simulation/demonstration-04.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-04.mp4">Download demonstration 04</a>.
+          </video>
+          <figcaption id="simulation-caption-04">Demonstration 04</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-05.jpg" aria-labelledby="simulation-caption-05">
+            <source src="assets/videos/simulation/demonstration-05.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-05.mp4">Download demonstration 05</a>.
+          </video>
+          <figcaption id="simulation-caption-05">Demonstration 05</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-06.jpg" aria-labelledby="simulation-caption-06">
+            <source src="assets/videos/simulation/demonstration-06.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-06.mp4">Download demonstration 06</a>.
+          </video>
+          <figcaption id="simulation-caption-06">Demonstration 06</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-07.jpg" aria-labelledby="simulation-caption-07">
+            <source src="assets/videos/simulation/demonstration-07.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-07.mp4">Download demonstration 07</a>.
+          </video>
+          <figcaption id="simulation-caption-07">Demonstration 07</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-08.jpg" aria-labelledby="simulation-caption-08">
+            <source src="assets/videos/simulation/demonstration-08.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-08.mp4">Download demonstration 08</a>.
+          </video>
+          <figcaption id="simulation-caption-08">Demonstration 08</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-09.jpg" aria-labelledby="simulation-caption-09">
+            <source src="assets/videos/simulation/demonstration-09.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-09.mp4">Download demonstration 09</a>.
+          </video>
+          <figcaption id="simulation-caption-09">Demonstration 09</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-10.jpg" aria-labelledby="simulation-caption-10">
+            <source src="assets/videos/simulation/demonstration-10.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-10.mp4">Download demonstration 10</a>.
+          </video>
+          <figcaption id="simulation-caption-10">Demonstration 10</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-11.jpg" aria-labelledby="simulation-caption-11">
+            <source src="assets/videos/simulation/demonstration-11.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-11.mp4">Download demonstration 11</a>.
+          </video>
+          <figcaption id="simulation-caption-11">Demonstration 11</figcaption>
+        </figure>
+        <figure class="simulation-item">
+          <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation/demonstration-12.jpg" aria-labelledby="simulation-caption-12">
+            <source src="assets/videos/simulation/demonstration-12.mp4" type="video/mp4">
+            <a href="assets/videos/simulation/demonstration-12.mp4">Download demonstration 12</a>.
+          </video>
+          <figcaption id="simulation-caption-12">Demonstration 12</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="method" aria-labelledby="method-title">
+      <div class="container">
+        <div class="section-heading"><p class="eyebrow">MoMa-NMP</p><h2 id="method-title">Policy Architecture and Training</h2></div>
+        <div class="architecture-layout">
+          <figure class="paper-figure">
+            <a class="figure-link" href="assets/figures/policy.png" target="_blank" rel="noopener" aria-label="Open an enlarged view of the policy architecture"><img src="assets/figures/policy.png" alt="Policy architecture: point-cloud features, joint states, and goal-pose features enter a transformer encoder-decoder to predict a five-step action sequence." width="732" height="501" loading="lazy"></a>
+            <figcaption>MoMa-NMP transformer encoder-decoder architecture.</figcaption>
+          </figure>
+          <div class="architecture-copy">
+            <p>MoMa-NMP takes depth and LiDAR point clouds, the robot state, and an end-effector goal pose as input, and predicts five steps of coordinated base-and-arm motion. We first train it by behavior cloning on MoMa-DemoSmith demonstrations. During on-policy fine-tuning, Geometric Fabrics uses ground-truth scene geometry to correct the frozen behavior-cloned policy’s actions and supervise the student. At deployment, the learned policy replans from onboard observations without access to ground-truth scene geometry.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="results" aria-labelledby="results-title">
+      <div class="section-heading"><h2 id="results-title">Simulation Evaluation and Ablation Studies</h2><p class="section-intro">Evaluation on approximately 10,000 valid held-out planning problems measures collision-free goal-reaching performance.</p></div>
+      <div class="simulation-results">
+        <article class="result-panel"><h3>Simulation Planning Results</h3><div class="table-scroll"><table><caption class="sr-only">Simulation planning success</caption><thead><tr><th scope="col">Method</th><th scope="col">Success</th></tr></thead><tbody><tr class="ours"><th scope="row">MoMa-NMP</th><td>87.0%</td></tr><tr><th scope="row">MoMa-NMP (BC only)</th><td>64.8%</td></tr><tr><th scope="row">RRTConnect</th><td>85.3%</td></tr><tr><th scope="row">cuRobo</th><td>46.9%</td></tr><tr><th scope="row">Geometric Fabrics</th><td>17.2%</td></tr></tbody></table></div><p class="result-note">Approximately 10k valid held-out problems. MoMa-NMP uses partial observations. Classical baselines receive oracle geometry; cuRobo and RRTConnect also receive eight precomputed collision-free goal configurations, relaxed mobile-base motion limits, and planning budgets of 3 s and 60 s, respectively.</p></article>
+      </div>
+      <section id="simulation-rollouts" aria-labelledby="simulation-rollouts-title">
+        <div class="gallery-heading"><div><h3 id="simulation-rollouts-title">MoMa-NMP Simulation Rollouts</h3><p>Policy evaluation on held-out simulation problems.</p></div><span class="gallery-count">12 videos</span></div>
+        <div class="simulation-grid">
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-01.jpg" aria-labelledby="evaluation-caption-01">
+              <source src="assets/videos/simulation-evaluation/evaluation-01.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-01.mp4">Download evaluation 01</a>.
+            </video>
+            <figcaption id="evaluation-caption-01">Evaluation 01</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-02.jpg" aria-labelledby="evaluation-caption-02">
+              <source src="assets/videos/simulation-evaluation/evaluation-02.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-02.mp4">Download evaluation 02</a>.
+            </video>
+            <figcaption id="evaluation-caption-02">Evaluation 02</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-03.jpg" aria-labelledby="evaluation-caption-03">
+              <source src="assets/videos/simulation-evaluation/evaluation-03.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-03.mp4">Download evaluation 03</a>.
+            </video>
+            <figcaption id="evaluation-caption-03">Evaluation 03</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-04.jpg" aria-labelledby="evaluation-caption-04">
+              <source src="assets/videos/simulation-evaluation/evaluation-04.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-04.mp4">Download evaluation 04</a>.
+            </video>
+            <figcaption id="evaluation-caption-04">Evaluation 04</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-05.jpg" aria-labelledby="evaluation-caption-05">
+              <source src="assets/videos/simulation-evaluation/evaluation-05.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-05.mp4">Download evaluation 05</a>.
+            </video>
+            <figcaption id="evaluation-caption-05">Evaluation 05</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-06.jpg" aria-labelledby="evaluation-caption-06">
+              <source src="assets/videos/simulation-evaluation/evaluation-06.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-06.mp4">Download evaluation 06</a>.
+            </video>
+            <figcaption id="evaluation-caption-06">Evaluation 06</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-07.jpg" aria-labelledby="evaluation-caption-07">
+              <source src="assets/videos/simulation-evaluation/evaluation-07.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-07.mp4">Download evaluation 07</a>.
+            </video>
+            <figcaption id="evaluation-caption-07">Evaluation 07</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-08.jpg" aria-labelledby="evaluation-caption-08">
+              <source src="assets/videos/simulation-evaluation/evaluation-08.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-08.mp4">Download evaluation 08</a>.
+            </video>
+            <figcaption id="evaluation-caption-08">Evaluation 08</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-09.jpg" aria-labelledby="evaluation-caption-09">
+              <source src="assets/videos/simulation-evaluation/evaluation-09.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-09.mp4">Download evaluation 09</a>.
+            </video>
+            <figcaption id="evaluation-caption-09">Evaluation 09</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-10.jpg" aria-labelledby="evaluation-caption-10">
+              <source src="assets/videos/simulation-evaluation/evaluation-10.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-10.mp4">Download evaluation 10</a>.
+            </video>
+            <figcaption id="evaluation-caption-10">Evaluation 10</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-11.jpg" aria-labelledby="evaluation-caption-11">
+              <source src="assets/videos/simulation-evaluation/evaluation-11.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-11.mp4">Download evaluation 11</a>.
+            </video>
+            <figcaption id="evaluation-caption-11">Evaluation 11</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/simulation-evaluation/evaluation-12.jpg" aria-labelledby="evaluation-caption-12">
+              <source src="assets/videos/simulation-evaluation/evaluation-12.mp4" type="video/mp4">
+              <a href="assets/videos/simulation-evaluation/evaluation-12.mp4">Download evaluation 12</a>.
+            </video>
+            <figcaption id="evaluation-caption-12">Evaluation 12</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="result-panel benchmark-section" id="m2diffuser" aria-labelledby="m2diffuser-title">
+        <h3 id="m2diffuser-title">Zero-Shot Evaluation on M²Diffuser</h3>
+        <div class="benchmark-table table-scroll">
+          <table>
+            <caption class="sr-only">Zero-shot evaluation on the M²Diffuser goal-reaching benchmark</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Collision-free goal success (%)</th><th scope="col">Goal reached (%)</th></tr></thead>
+            <tbody><tr class="ours"><th scope="row">MoMa-NMP</th><td>75.98</td><td>87.32</td></tr><tr><th scope="row">M²Diffuser</th><td>23.23</td><td>27.83</td></tr></tbody>
+          </table>
+        </div>
+        <p class="result-note">MoMa-NMP is evaluated without retraining or fine-tuning on M²Diffuser scenes or demonstrations. Results cover 891 problems from the official seen-scene goal-reaching test split with collision-free start and goal inverse-kinematics solutions for our robot. Both methods use the same scene geometries and end-effector start and goal poses. Goal reaching requires position error within 4 cm and orientation error within 20°; collision-free goal success also requires no prior collision.</p>
+        <div class="benchmark-video-grid">
+          <figure class="simulation-item">
+            <video class="simulation-video benchmark-video" controls muted loop playsinline preload="none" width="1250" height="706" poster="assets/posters/m2diffuser/moma-nmp-00000009.jpg" aria-labelledby="m2diffuser-caption-1">
+              <source src="assets/videos/m2diffuser/moma-nmp-00000009.mp4" type="video/mp4">
+              <a href="assets/videos/m2diffuser/moma-nmp-00000009.mp4">Download MoMa-NMP rollout 1</a>.
+            </video>
+            <figcaption id="m2diffuser-caption-1">MoMa-NMP rollout 1</figcaption>
+          </figure>
+          <figure class="simulation-item">
+            <video class="simulation-video benchmark-video" controls muted loop playsinline preload="none" width="1242" height="702" poster="assets/posters/m2diffuser/moma-nmp-00000064.jpg" aria-labelledby="m2diffuser-caption-2">
+              <source src="assets/videos/m2diffuser/moma-nmp-00000064.mp4" type="video/mp4">
+              <a href="assets/videos/m2diffuser/moma-nmp-00000064.mp4">Download MoMa-NMP rollout 2</a>.
+            </video>
+            <figcaption id="m2diffuser-caption-2">MoMa-NMP rollout 2</figcaption>
+          </figure>
+        </div>
+      </section>
+      <details class="additional-results"><summary>Ablation Studies<span aria-hidden="true">+</span></summary><div class="ablation-grid"><div><h3>Action-Target Annotation</h3><p>Fabrics annotations improve behavior-cloning success from <strong>47.0% to 64.8%</strong> compared with raw cuRobo actions.</p></div><div><h3>On-Policy Distillation</h3><p>Privileged on-policy distillation improves simulation success from <strong>64.8% to 87.0%</strong>.</p></div><div><h3>Training Observation Model</h3><p>Rendered depth and LiDAR improve real-world success from <strong>54.5% to 79.5%</strong> on a separate set of 44 matched trials per policy.</p></div></div></details>
+    </section>
+
+    <section class="section section-tinted" id="limitations" aria-labelledby="limitations-title">
+      <div class="container">
+        <div class="section-heading"><h2 id="limitations-title">Limitations</h2></div>
+        <div class="limitations-copy">
+          <p>Like many neural methods, MoMa-NMP struggles in scenes that diverge significantly from the training distribution. For example, it often collides with chairs, which are not well represented by either the pillars or tables in our training set.</p>
+          <p>Although MoMa-NMP demonstrates an ability to plan around partially occluded obstacles, it often collides with nearby small obstacles that are fully occluded from both the LiDAR and depth cameras.</p>
+        </div>
+        <div class="failure-video-grid">
+          <video class="real-world-video" controls muted loop playsinline preload="none" width="1920" height="1080" poster="assets/posters/failures/failure-01.jpg" aria-label="Real-world failure case 1">
+            <source src="assets/videos/failures/failure-01.mp4" type="video/mp4">
+            <a href="assets/videos/failures/failure-01.mp4">Download real-world failure case 1</a>.
+          </video>
+          <video class="real-world-video" controls muted loop playsinline preload="none" width="1920" height="1080" poster="assets/posters/failures/failure-02.jpg" aria-label="Real-world failure case 2">
+            <source src="assets/videos/failures/failure-02.mp4" type="video/mp4">
+            <a href="assets/videos/failures/failure-02.mp4">Download real-world failure case 2</a>.
+          </video>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer container"><span class="wordmark">MoMa<span>-NMP</span></span><p>Anonymous submission</p><a href="#top">Back to top <span aria-hidden="true">↑</span></a></footer>
 </body>
 </html>
