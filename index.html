@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#17485d">
   <title>MoMa-NMP | Scene-Scale Neural Motion Planning</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=d0ce10db294e">
+  <link rel="stylesheet" href="assets/css/style.css?v=05eb79389be9">
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
@@ -20,6 +20,7 @@
         <a href="#real-world">Real-World Evaluation</a>
         <a href="#data-generation">Simulation Data Generation</a>
         <a href="#method">Policy and Training</a>
+        <a href="#observations">Observations</a>
         <a href="#results">Simulation Evaluation</a>
         <a href="#limitations">Limitations</a>
       </div>
@@ -215,6 +216,21 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="section container observation-section" id="observations" aria-labelledby="observations-title">
+      <div class="section-heading">
+        <h2 id="observations-title">Rendered Point-Cloud Observations</h2>
+        <p class="section-intro">We reproduce partial observability in simulation with GPU-based sensor rendering. Points sampled from scene and robot geometry are projected through depth-camera and LiDAR renderers, which retain only the nearest return in each image pixel or angular bin. Occluded geometry is removed before the policy observes the scene.</p>
+      </div>
+      <figure class="observation-rollout">
+        <video class="simulation-video observation-video" controls muted loop playsinline preload="none" width="1904" height="1524" poster="assets/posters/observations/rendered-point-cloud-rollout.jpg?v=5f4d82732093" aria-labelledby="observation-caption">
+          <source src="assets/videos/observations/rendered-point-cloud-rollout.mp4?v=891fd5569c11" type="video/mp4">
+          <a href="assets/videos/observations/rendered-point-cloud-rollout.mp4?v=891fd5569c11">Download the point-cloud observation rollout</a>.
+        </video>
+        <figcaption id="observation-caption">A successful simulation rollout visualizing the point-cloud observations supplied to MoMa-NMP, including rendered depth-camera and LiDAR points.</figcaption>
+      </figure>
+      <p class="observation-copy">Depth-camera and LiDAR points are combined with a directly sampled subset of the robot mesh, since robot geometry and joint state are known at deployment. The three point sets form a single PointNet++ input, with source features identifying each point type.</p>
     </section>
 
     <section class="section container" id="results" aria-labelledby="results-title">
