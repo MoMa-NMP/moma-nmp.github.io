@@ -100,7 +100,7 @@ summary { cursor: pointer; padding: 22px 0; font-size: .93rem; font-weight: 600;
 summary::-webkit-details-marker { display: none; }
 summary > span { font-size: 1.2rem; font-weight: 400; }
 details[open] summary > span { transform: rotate(45deg); }
-.ablation-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; padding-bottom: 29px; }
+.ablation-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 30px; padding-bottom: 29px; }
 .ablation-grid h3 { font-size: .95rem; }
 .ablation-grid p { color: var(--muted); font-size: .82rem; margin-top: 12px; }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-block: 28px; }
